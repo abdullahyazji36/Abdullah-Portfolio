@@ -7,7 +7,7 @@ import { Button, Dialog, DialogContent, Container } from "@mui/material";
 const navigation = [
     { name: 'Home', href: '#home' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#' },
+    { name: 'Skills', href: '#skills' },
     { name: 'About', href: '#' },
 ]
 
