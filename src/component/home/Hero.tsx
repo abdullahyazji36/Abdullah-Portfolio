@@ -7,8 +7,8 @@ import { Button } from "@mui/material";
 const Hero = () => {
     return (
         <div className="min-h-screen flex items-center pt-24 px-6 lg:px-8">
-            <div className="mx-auto max-w-6xl w-full">
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+            <div className="mx-auto max-w-5xl w-full">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-12">
                     <div>
                         <Image
                             src={PersonalImage}

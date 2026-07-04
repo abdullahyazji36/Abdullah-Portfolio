@@ -24,7 +24,7 @@ const projects = [
 const Project = () => {
     return (
         <div className='min-h-screen pt-24 px-6 lg:px-8 mb-6'>
-            <div className='mx-auto max-w-6xl w-full'>
+            <div className='mx-auto max-w-5xl w-full'>
                 <h2 className='text-2xl pb-6'>Projects</h2>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
                     {projects.map((project) => (
