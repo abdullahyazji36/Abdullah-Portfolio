@@ -1,38 +1,9 @@
 "use client";
-
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-
-const skills = {
-    Frontend: [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "TypeScript",
-        "React",
-        "Next.js",
-        "Tailwind CSS",
-        "Material UI",
-    ],
-    Backend: [
-        "Node.js",
-        "API Routes",
-        "Server Actions",
-        "Auth.js"
-    ],
-    Database: [
-        "SQL",
-        "PostgreSQL",
-        "Prisma",
-    ],
-    Tools: [
-        "Git",
-        "GitHub",
-        "VS Code"
-    ],
-};
+import { skills } from "@/utils/mockData";
 
 const Skills = () => {
     return (
@@ -43,9 +14,9 @@ const Skills = () => {
                 </Typography>
 
                 <div className="grid gap-8 md:grid-cols-2">
-                    {Object.entries(skills).map(([category, items]) => (
+                    {skills.map((category) => (
                         <Box
-                            key={category}
+                            key={category.id}
                             sx={{
                                 p: 3,
                                 border: 1,
@@ -53,25 +24,20 @@ const Skills = () => {
                                 borderRadius: 2,
                             }}
                         >
-                            <Typography
-                                variant="h6"
-                                sx={{ mb: 2, fontWeight: 600 }}
-                            >
-                                {category}
+                            <Typography variant="h6" sx={{ mb: 2 }}>
+                                {category.title}
                             </Typography>
 
                             <Stack
                                 direction="row"
                                 spacing={1}
                                 useFlexGap
-                                sx={{
-                                    flexWrap: "wrap"
-                                }}
+                                sx={{ flexWrap: "wrap" }}
                             >
-                                {items.map((skill) => (
+                                {category.skills.map((skill) => (
                                     <Chip
-                                        key={skill}
-                                        label={skill}
+                                        key={skill.id}
+                                        label={skill.title}
                                         color="primary"
                                         variant="outlined"
                                     />

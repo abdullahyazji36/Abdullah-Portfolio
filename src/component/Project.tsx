@@ -5,21 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-const projects = [
-    {
-        id: "1",
-        title: "Title",
-        desc: "Description",
-        img: "/img.jpg"
-    },
-    {
-        id: "2",
-        title: "Title",
-        desc: "Description",
-        img: "/img.jpg"
-    }
-]
+import { projects } from '@/utils/mockData';
 
 const Project = () => {
     return (
@@ -38,7 +24,7 @@ const Project = () => {
                             <CardMedia
                                 component="img"
                                 alt="green iguana"
-                                image={project.img}
+                                image={project.image}
                                 className='object-cover'
                                 sx={{
                                     height: 200,
@@ -50,7 +36,7 @@ const Project = () => {
                                     {project.title}
                                 </Typography>
                                 <Typography variant="body2" className='dark:text-gray-400'>
-                                    {project.desc}
+                                    {project.description}
                                 </Typography>
                             </CardContent>
                             <CardActions className='dark:bg-gray-700'>
@@ -59,6 +45,10 @@ const Project = () => {
                             </CardActions>
                         </Card>
                     ))}
+                    {!projects.length &&
+                        <p className="text-center">
+                            No projects found.
+                        </p>}
                 </div>
             </div>
         </div>
