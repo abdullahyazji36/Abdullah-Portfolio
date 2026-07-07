@@ -9,7 +9,6 @@ export const skills: Skill[] = [
         id: "1",
         title: "frontend",
         skills: [
-            { id: '1', title: "Html" },
             { id: "2", title: "CSS" },
             { id: "3", title: "JavaScript" },
             { id: "4", title: "TypeScript" },
@@ -45,6 +44,13 @@ export const skills: Skill[] = [
             { id: '1', title: "Git" },
             { id: "2", title: "GitHub" },
             { id: "3", title: "VS Code" },
+        ]
+    },
+    {
+        id: "5",
+        title: "Design",
+        skills: [
+            { id: "1", title: "Figma" }
         ]
     }
 
