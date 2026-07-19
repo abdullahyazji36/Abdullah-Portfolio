@@ -15,7 +15,7 @@ const Hero = () => {
                             alt="Abdullah"
                             width={320}
                             height={320}
-                            className="rounded-full shadow-xl w-56 h-56 sm:w-48 sm:h-48 lg:w-80 lg:h-80 object-cover"
+                            className="rounded-full shadow-2xl ring-4 ring-blue-500/20 w-56 h-56 sm:w-48 sm:h-48 lg:w-80 lg:h-80 object-cover"
                             priority
                         />
                     </div>
@@ -26,11 +26,9 @@ const Hero = () => {
                         </h1>
 
                         <p className="mt-6 text-lg dark:text-gray-400 text-gray-600 leading-8">
-                            Fullstack Developer focused on building modern web applications
-                            with strong frontend experiences and reliable backend architectures.
-                            Skilled in designing, developing, and deploying scalable solutions
-                            using current technologies. Passionate about clean code, problem-solving,
-                            and creating efficient digital products from concept to completion.
+                            Full-stack Developer specializing in React, Next.js and Node.js.
+                            I build modern, scalable web applications with a focus on performance
+                            and user experience.
                         </p>
 
                         <div className="mt-8 flex justify-center md:justify-start gap-4">
