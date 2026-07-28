@@ -25,7 +25,7 @@ const AddProjects = () => {
     };
 
     return (
-        <div className="max-w-xl">
+        <div className="w-full max-w-xl">
             <h2 className="mb-6 text-3xl font-bold">Add Project</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -34,7 +34,7 @@ const AddProjects = () => {
                     placeholder="Project Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-lg border p-3"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
                 />
 
                 <textarea
@@ -42,14 +42,14 @@ const AddProjects = () => {
                     placeholder="Project Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full rounded-lg border p-3"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
                 />
 
                 <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    className="w-full rounded-lg border p-2"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
                 />
 
                 {image && (

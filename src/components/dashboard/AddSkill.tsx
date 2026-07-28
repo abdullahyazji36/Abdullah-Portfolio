@@ -13,7 +13,7 @@ const AddSkill = () => {
     };
 
     return (
-        <div className="max-w-md">
+        <div className="w-full max-w-md">
             <h2 className="mb-6 text-3xl font-bold">Add Skill</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
