@@ -37,11 +37,17 @@ export default function Sidebar() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
+    const handleNavigation = () => {
+        if (window.innerWidth < 1024) {
+            setOpen(false);
+        }
+    };
+
     return (
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="fixed left-4 top-28 z-50 rounded-lg bg-gray-900 p-2 text-white md:hidden"
+                className="fixed left-4 top-28 z-50 rounded-lg p-2 md:hidden"
             >
                 <MenuIcon />
             </button>
@@ -53,7 +59,7 @@ export default function Sidebar() {
                 />
             )}
 
-            <aside className={`fixed left-0 top-20 z-50 h-[calc(100vh-6rem)] w-64 bg-gray-900 text-white p-6 transition-transform duration-300
+            <aside className={`fixed left-0 top-20 z-50 h-[calc(100vh-6rem)] w-64 dark:bg-gray-900 bg-white p-6 transition-transform duration-300
                     ${open ? "translate-x-0" : "-translate-x-full"
                 }
                     md:static md:h-auto md:translate-x-0`}
@@ -81,8 +87,9 @@ export default function Sidebar() {
                                         href={link.href}
                                         className={`flex items-center gap-3 rounded-lg px-4 py-3 transition ${pathname === link.href
                                             ? "bg-blue-600"
-                                            : "hover:bg-gray-700"
+                                            : "dark:hover:bg-gray-700 hover:bg-gray-700/25"
                                             }`}
+                                        onClick={handleNavigation}
                                     >
                                         <Icon fontSize="small"
                                             className="text-xl"
