@@ -59,7 +59,7 @@ export default function Sidebar() {
                 />
             )}
 
-            <aside className={`fixed left-0 top-20 z-50 h-[calc(100vh-6rem)] w-64 dark:bg-gray-900 bg-white p-6 transition-transform duration-300
+            <aside className={`fixed left-0 top-20 z-40 h-[calc(100vh-6rem)] w-64 dark:bg-gray-900 bg-white p-6 transition-transform duration-300
                     ${open ? "translate-x-0" : "-translate-x-full"
                 }
                     md:static md:h-auto md:translate-x-0`}
