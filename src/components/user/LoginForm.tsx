@@ -1,7 +1,48 @@
+"use client";
 import PersonalImage from "../../../public/personal.jpg";
 import Image from "next/image";
+import { useState } from "react";
+import { LoginSchema } from "@/utils/validationSchenas";
+import AlertUser from "./Alert";
+import Spinner from "./Spinner";
+import { loginAction } from "@/actions/auth.action";
 
 const LoginForm = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [clientError, setClientError] = useState("");
+    const [serverError, setServerError] = useState("");
+    const [serverSuccess, setServerSuccess] = useState("");
+
+    const [loading, setLoading] = useState(false);
+
+    const formSubmitHandler = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const validation = LoginSchema.safeParse({ email, password });
+
+        if (!validation.success)
+            return setClientError(validation.error.issues[0].message);
+
+        setLoading(true);
+        loginAction({ email, password }).then((result) => {
+            if (result.success) {
+                setClientError("");
+                setServerError("");
+                setEmail("");
+                setPassword("");
+                setServerSuccess(result.message);
+            }
+            if (!result.success) setServerError(result.message);
+            setLoading(false);
+
+        });
+
+        setEmail("");
+        setPassword("");
+        setClientError("");
+    }
+
     return (
         <div className="flex min-h-full flex-col justify-center items-center px-6 py-24 lg:px-8">
             <div className="w-full max-w-sm rounded-2xl dark:bg-gray-800 bg-gray-50 p-8 shadow-lg">
@@ -15,7 +56,7 @@ const LoginForm = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form onSubmit={formSubmitHandler} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm/6 font-medium">
                                 Email address
@@ -26,8 +67,9 @@ const LoginForm = () => {
                                     name="email"
                                     type="email"
                                     placeholder="example@gmail.com"
-                                    required
                                     autoComplete="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                 />
                             </div>
@@ -45,19 +87,24 @@ const LoginForm = () => {
                                     name="password"
                                     type="password"
                                     placeholder="password"
-                                    required
                                     autoComplete="current-password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     className="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                                 />
                             </div>
                         </div>
 
+                        {(clientError || serverError) && <AlertUser type="error" message={clientError || serverError} />}
+                        {serverSuccess && <AlertUser type="success" message={serverSuccess} />}
+
                         <div>
                             <button
+                                disabled={loading}
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                className="disabled:bg-indigo-200 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                             >
-                                Sign in
+                                {loading === true ? <Spinner /> : "Sign in"}
                             </button>
                         </div>
                     </form>

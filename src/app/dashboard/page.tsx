@@ -1,5 +1,7 @@
 import { projects } from '@/utils/mockData';
 import { skills } from '@/utils/mockData';
+import { signOutUser } from '@/actions/auth.action';
+import { Button } from '@mui/material';
 
 const Dashboard = () => {
 
@@ -31,6 +33,12 @@ const Dashboard = () => {
                 </div>
 
             </div>
+
+            <form action={signOutUser} className='mt-5'>
+                <Button variant="contained" color="error" type="submit">
+                    Sign Out
+                </Button>
+            </form>
         </>
     );
 }
