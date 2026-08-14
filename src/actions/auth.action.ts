@@ -1,7 +1,6 @@
 "use server";
 import { signIn, signOut } from "@/auth";
-// import prisma from "@/lib/prisma";
-import { LoginSchema } from "@/utils/validationSchenas";
+import { LoginSchema } from "@/utils/validationSchemas";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 
@@ -12,14 +11,10 @@ export const loginAction = async (data: LoginDto) => {
 
     if (!validation.success)
         return { success: false, message: "Invalid credentials" };
-    console.log(data);
 
     const { email, password } = validation.data;
 
     try {
-        // const user = await prisma.user.findUnique({ where: { email } });
-        // if (!user || !user.email || !user.password)
-        //     return { success: false, message: "Invalid credentials" };
 
         await signIn("credentials", { email, password, redirectTo: "/dashboard" });
 

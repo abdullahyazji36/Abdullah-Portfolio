@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { createProjectAction } from "@/actions/project.action";
+import { toast } from "react-toastify";
 
 const AddProjects = () => {
     const [name, setName] = useState("");
@@ -12,13 +14,13 @@ const AddProjects = () => {
         }
     };
 
-    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (formData: FormData) => {
 
-        console.log({
-            name,
-            description,
-        });
+        const validation = await createProjectAction(formData);
+
+        if (!validation?.success) {
+            toast.error(validation.message)
+        }
 
         setName("");
         setDescription("");
@@ -28,11 +30,12 @@ const AddProjects = () => {
         <div className="w-full max-w-xl">
             <h2 className="mb-6 text-3xl font-bold">Add Project</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form action={handleSubmit} className="space-y-4">
                 <input
                     type="text"
                     placeholder="Project Name"
                     value={name}
+                    name="title"
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
                 />
@@ -41,6 +44,7 @@ const AddProjects = () => {
                     rows={4}
                     placeholder="Project Description"
                     value={description}
+                    name="content"
                     onChange={(e) => setDescription(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
                 />

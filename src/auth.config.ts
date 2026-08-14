@@ -1,6 +1,6 @@
 import prisma from "./lib/prisma";
 import bcrypt from "bcryptjs";
-import { LoginSchema } from "@/utils/validationSchenas";
+import { LoginSchema } from "@/utils/validationSchemas";
 import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth"
 

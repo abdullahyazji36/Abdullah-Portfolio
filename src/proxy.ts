@@ -15,7 +15,7 @@ export default proxy((req) => {
         return NextResponse.redirect(newUrl)
     }
 
-    console.log(req.auth)
+    // console.log(req.auth)
 
     if (!req.auth && protectedRoutes.find((rout) => path.startsWith(rout))) {
         const newUrl = new URL("/signin", req.nextUrl.origin)

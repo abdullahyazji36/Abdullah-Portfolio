@@ -2,7 +2,7 @@
 import PersonalImage from "../../../public/personal.jpg";
 import Image from "next/image";
 import { useState } from "react";
-import { LoginSchema } from "@/utils/validationSchenas";
+import { LoginSchema } from "@/utils/validationSchemas";
 import AlertUser from "./Alert";
 import Spinner from "./Spinner";
 import { loginAction } from "@/actions/auth.action";
