@@ -25,11 +25,14 @@ enum Role {
 }
 
 model Project {
-  id      String  @id @default(cuid())
-  title   String
-  content String?
-  userId  String  @map("user_id")
-  user    User    @relation(fields: [userId], references: [id])
+  id        String  @id @default(cuid())
+  title     String
+  content   String?
+  image     String?
+  githubUrl String?
+  webUrl    String?
+  userId    String  @map("user_id")
+  user      User    @relation(fields: [userId], references: [id])
 
   @@map("projects")
 }

@@ -7,6 +7,8 @@ const AddProjects = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState<File | null>(null);
+    const [webUrl, setWebUrl] = useState("");
+    const [githubUrl, setGithubUrl] = useState("");
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -24,6 +26,8 @@ const AddProjects = () => {
 
         setName("");
         setDescription("");
+        setGithubUrl("");
+        setWebUrl("");
     };
 
     return (
@@ -50,16 +54,44 @@ const AddProjects = () => {
                 />
 
                 <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
+                    type="url"
+                    name="githubUrl"
+                    placeholder="GitHub URL"
+                    value={githubUrl}
+                    onChange={(e) => setGithubUrl(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
+
                 />
 
+                <input
+                    type="url"
+                    name="webUrl"
+                    placeholder="Web URL"
+                    value={webUrl}
+                    onChange={(e) => setWebUrl(e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
+
+                />
+
+                <div>
+                    <label className="mb-2 block text-sm font-medium">
+                        Project Image
+                    </label>
+
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handleImageChange}
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
+                    />
+                </div>
+
+                {/* Selected Image */}
                 {image && (
-                    <p className="mt-2 text-sm text-gray-600">
+                    <div className="text-sm text-gray-600">
                         Selected: {image.name}
-                    </p>
+                    </div>
                 )}
 
                 <button

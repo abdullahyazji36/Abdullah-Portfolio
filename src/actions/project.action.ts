@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import { ProjectSchema } from '@/utils/validationSchemas';
 import { z } from "zod";
 import { redirect } from 'next/navigation';
+import { uploadImage } from "@/lib/uploadImage";
 
 
 type CreateProjectDto = z.infer<typeof ProjectSchema>;
@@ -13,6 +14,10 @@ export async function createProjectAction(formData: FormData) {
     try {
         const title = formData.get("title")?.toString();
         const content = formData.get("content")?.toString();
+        const githubUrl = formData.get("githubUrl")?.toString();
+        const webUrl = formData.get("webUrl")?.toString();
+        const image = formData.get("image") as File | null;
+
 
         const session = await auth();
 
@@ -34,10 +39,40 @@ export async function createProjectAction(formData: FormData) {
             return { success: false, message: "User Not Found" }
         }
 
+        let imageUrl: string | null = null;
+
+        if (image && image.size > 0) {
+
+            if (image.size > 5 * 1024 * 1024) {
+                return {
+                    success: false,
+                    message: "Image must be less than 5MB",
+                };
+            }
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp",
+            ];
+
+            if (!allowedTypes.includes(image.type)) {
+                return {
+                    success: false,
+                    message: "Only JPG, PNG and WEBP images are allowed",
+                };
+            }
+
+            imageUrl = await uploadImage(image);
+        }
+
         await prisma.project.create({
             data: {
                 title: validation.data.title,
                 content: validation.data.content,
+                githubUrl: githubUrl || null,
+                webUrl: webUrl || null,
+                image: imageUrl,
                 userId: session.user.id
             },
         });

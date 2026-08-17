@@ -4,7 +4,7 @@ import { auth } from '@/auth';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
+import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
@@ -32,16 +32,16 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                             boxShadow: 6,
                         },
                     }}>
-                        {/* <CardMedia
+                        <CardMedia
                             component="img"
                             alt="image"
-                            image={project.image}
+                            image={project.image ?? "/placeholder.jpg"}
                             className='object-cover'
                             sx={{
                                 height: 200,
                                 objectFit: "cover"
                             }}
-                        /> */}
+                        />
                         <CardContent className='dark:bg-gray-700'>
                             <Typography gutterBottom variant="h5" component="div" className='dark:text-gray-200'>
                                 {project.title}
@@ -51,8 +51,30 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                             </Typography>
                         </CardContent>
                         <CardActions className='dark:bg-gray-700'>
-                            <Button size="small" sx={{ textTransform: "none" }} variant="outlined">GitHub</Button>
-                            <Button size="small" sx={{ textTransform: "none" }} variant="outlined">View Web</Button>
+                            {project.githubUrl && (
+                                <Button
+                                    href={project.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    size="small"
+                                    sx={{ textTransform: "none" }}
+                                    variant="outlined"
+                                >
+                                    GitHub
+                                </Button>
+                            )}
+                            {project.webUrl && (
+                                <Button
+                                    href={project.webUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    size="small"
+                                    sx={{ textTransform: "none" }}
+                                    variant="outlined"
+                                >
+                                    View Web
+                                </Button>
+                            )}
                         </CardActions>
                     </Card>
                 </div>
