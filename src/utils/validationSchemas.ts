@@ -13,3 +13,9 @@ export const ProjectSchema = z.object({
         .min(8, "content must contain at least 8 characters")
         .max(200, "content should be less than 200 characters"),
 });
+
+export const SkillCategorySchema = z.object({
+    name: z.string()
+        .min(3, "Tilte must contain at least 3 characters")
+        .max(100, "Title should be less than 100 characters"),
+})

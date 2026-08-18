@@ -1,11 +1,15 @@
-"use client";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { skills } from "@/utils/mockData";
+import prisma from "@/lib/prisma";
 
-const Skills = () => {
+const Skills = async () => {
+    const skillsCategory = await prisma.skillCategory.findMany({
+        include: {
+            skills: true,
+        },
+    });
     return (
         <div className="min-h-screen pt-32 px-6 lg:px-8">
             <div className="mx-auto max-w-5xl">
@@ -14,7 +18,7 @@ const Skills = () => {
                 </Typography>
 
                 <div className="grid gap-8 md:grid-cols-2">
-                    {skills.map((category) => (
+                    {skillsCategory.map((category) => (
                         <Box
                             key={category.id}
                             sx={{
@@ -25,7 +29,7 @@ const Skills = () => {
                             }}
                         >
                             <Typography variant="h6" sx={{ mb: 2 }}>
-                                {category.title}
+                                {category.name}
                             </Typography>
 
                             <Stack
@@ -37,7 +41,7 @@ const Skills = () => {
                                 {category.skills.map((skill) => (
                                     <Chip
                                         key={skill.id}
-                                        label={skill.title}
+                                        label={skill.name}
                                         color="primary"
                                         variant="outlined"
                                     />

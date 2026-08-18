@@ -1,4 +1,4 @@
-import AddSkill from '@/components/dashboard/AddSkill'
+import AddSkill from '@/components/dashboard/AddSkillCategory'
 import React from 'react'
 
 const page = () => {

@@ -1,27 +1,33 @@
 "use client";
+import { createSkillCategoryAction } from "@/actions/skillcategory.action";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const AddSkill = () => {
-    const [skill, setSkill] = useState("");
+    const [skillCategory, setSkillCategory] = useState("");
 
-    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (formData: FormData) => {
 
-        console.log(skill);
+        const validation = await createSkillCategoryAction(formData);
 
-        setSkill("");
+        if (!validation?.success) {
+            toast.error(validation.message)
+        }
+
+        setSkillCategory("");
     };
 
     return (
         <div className="w-full max-w-md">
             <h2 className="mb-6 text-3xl font-bold">Add Skill</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form action={handleSubmit} className="space-y-4">
                 <input
                     type="text"
                     placeholder="Skill Name"
-                    value={skill}
-                    onChange={(e) => setSkill(e.target.value)}
+                    value={skillCategory}
+                    name="name"
+                    onChange={(e) => setSkillCategory(e.target.value)}
                     className="w-full rounded-lg border p-3"
                 />
 

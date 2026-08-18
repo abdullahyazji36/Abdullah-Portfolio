@@ -10,6 +10,8 @@ const Dashboard = async () => {
 
     const projectCount = await prisma.project.count()
 
+    const skillCategoryCount = await prisma.skillCategory.count();
+
     return (
         <>
             <h1 className="mb-8 text-3xl font-bold">
@@ -37,8 +39,13 @@ const Dashboard = async () => {
                     </h2>
 
                     <p className="mt-4 text-3xl font-bold">
-                        {skills.length}
+                        {skillCategoryCount}
                     </p>
+                    <Link href="/dashboard/dashskills"
+                        className="inline-block mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                    >
+                        All Skill Category
+                    </Link>
                 </div>
 
             </div>
