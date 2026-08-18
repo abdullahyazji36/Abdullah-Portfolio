@@ -1,13 +1,21 @@
-"use client";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { projects } from '@/utils/mockData';
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 
-const Project = () => {
+
+const Project = async () => {
+    const session = await auth();
+
+    const projects = await prisma.project.findMany({
+        where: {
+            userId: session?.user?.id
+        }
+    });
     return (
         <div className='min-h-screen pt-24 px-6 lg:px-8 mb-6'>
             <div className='mx-auto max-w-5xl w-full'>
@@ -23,8 +31,11 @@ const Project = () => {
                         }}>
                             <CardMedia
                                 component="img"
-                                alt="green iguana"
-                                image={project.image}
+                                alt={project.title}
+                                image={
+                                    project.image ??
+                                    "/placeholder.jpg"
+                                }
                                 className='object-cover'
                                 sx={{
                                     height: 200,
@@ -36,12 +47,34 @@ const Project = () => {
                                     {project.title}
                                 </Typography>
                                 <Typography variant="body2" className='dark:text-gray-400'>
-                                    {project.description}
+                                    {project.content}
                                 </Typography>
                             </CardContent>
                             <CardActions className='dark:bg-gray-700'>
-                                <Button size="small" sx={{ textTransform: "none" }} variant="outlined">GitHub</Button>
-                                <Button size="small" sx={{ textTransform: "none" }} variant="outlined">View Web</Button>
+                                {project.githubUrl && (
+                                    <Button
+                                        href={project.githubUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        size="small"
+                                        sx={{ textTransform: "none" }}
+                                        variant="outlined"
+                                    >
+                                        GitHub
+                                    </Button>
+                                )}
+                                {project.webUrl && (
+                                    <Button
+                                        href={project.webUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        size="small"
+                                        sx={{ textTransform: "none" }}
+                                        variant="outlined"
+                                    >
+                                        View Web
+                                    </Button>
+                                )}
                             </CardActions>
                         </Card>
                     ))}
