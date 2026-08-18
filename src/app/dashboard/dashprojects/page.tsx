@@ -1,9 +1,9 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { auth } from "@/auth";
+import DeleteProjectButton from "@/components/dashboard/DeleteProject";
 
-
-const page = async () => {
+const Page = async () => {
     const session = await auth();
 
     const projects = await prisma.project.findMany({
@@ -37,13 +37,24 @@ const page = async () => {
                                         {project.title}
                                     </td>
 
-                                    <td className="px-6 py-4 text-right">
-                                        <Link
-                                            href={`/dashboard/dashprojects/${project.id}`}
-                                            className="inline-block rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-                                            View Project
-                                        </Link>
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <Link
+                                                href={`/dashboard/dashprojects/${project.id}`}
+                                                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                View Project
+                                            </Link>
+
+                                            <Link
+                                                href={`/dashboard/dashprojects/${project.id}/edit`}
+                                                className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                Edit Project
+                                            </Link>
+
+                                            <DeleteProjectButton id={project.id} />
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -56,4 +67,4 @@ const page = async () => {
     )
 }
 
-export default page
+export default Page
