@@ -19,3 +19,9 @@ export const SkillCategorySchema = z.object({
         .min(3, "Tilte must contain at least 3 characters")
         .max(100, "Title should be less than 100 characters"),
 })
+
+export const SkillSchema = z.object({
+    name: z.string()
+        .min(3, "Tilte must contain at least 3 characters")
+        .max(100, "Title should be less than 100 characters"),
+})

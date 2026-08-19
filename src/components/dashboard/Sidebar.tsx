@@ -27,10 +27,15 @@ const links: SidebarLink[] = [
         icon: AddCardIcon,
     },
     {
-        name: "Add Skill",
+        name: "Add Skill Category",
         href: "/dashboard/dashskills/add",
         icon: AddCircleIcon,
     },
+    {
+        name: "Add Skill",
+        href: "/dashboard/dashskill/add",
+        icon: AddCircleIcon,
+    }
 ];
 
 export default function Sidebar() {

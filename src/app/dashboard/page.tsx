@@ -1,5 +1,3 @@
-// import { projects } from '@/utils/mockData';
-import { skills } from '@/utils/mockData';
 import { signOutUser } from '@/actions/auth.action';
 import { Button } from '@mui/material';
 import Link from 'next/link';
@@ -11,6 +9,9 @@ const Dashboard = async () => {
     const projectCount = await prisma.project.count()
 
     const skillCategoryCount = await prisma.skillCategory.count();
+
+    const skillCount = await prisma.skill.count();
+
 
     return (
         <>
@@ -45,6 +46,21 @@ const Dashboard = async () => {
                         className="inline-block mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                     >
                         All Skill Category
+                    </Link>
+                </div>
+
+                <div className="rounded-xl  p-6 shadow bg-gray-50 dark:bg-gray-800">
+                    <h2 className="text-lg font-semibold">
+                        Skills
+                    </h2>
+
+                    <p className="mt-4 text-3xl font-bold">
+                        {skillCount}
+                    </p>
+                    <Link href="/dashboard/dashskill"
+                        className="inline-block mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                    >
+                        All Skills
                     </Link>
                 </div>
 
