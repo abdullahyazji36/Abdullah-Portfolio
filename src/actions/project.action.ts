@@ -11,38 +11,32 @@ import { uploadImage } from "@/lib/uploadImage";
 type CreateProjectDto = z.infer<typeof ProjectSchema>;
 
 export async function createProjectAction(formData: FormData) {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "User Not Found" }
+    }
+
+    const title = formData.get("title")?.toString() ?? "";
+    const content = formData.get("content")?.toString() ?? "";
+    const githubUrl = formData.get("githubUrl")?.toString();
+    const webUrl = formData.get("webUrl")?.toString();
+    const image = formData.get("image") as File | null;
+
+    const projectData: CreateProjectDto = {
+        title: title,
+        content: content
+    };
+
+    const validation = ProjectSchema.safeParse(projectData);
+    if (!validation.success) {
+        return { success: false, message: validation.error.issues[0].message }
+    }
+
     try {
-        const title = formData.get("title")?.toString();
-        const content = formData.get("content")?.toString();
-        const githubUrl = formData.get("githubUrl")?.toString();
-        const webUrl = formData.get("webUrl")?.toString();
-        const image = formData.get("image") as File | null;
-
-
-        const session = await auth();
-
-        const projectData: CreateProjectDto = {
-
-            title: title ?? "",
-
-            content: content ?? ""
-
-        };
-
-        const validation = ProjectSchema.safeParse(projectData);
-
-        if (!validation.success) {
-            return { success: false, message: validation.error.issues[0].message }
-        }
-
-        if (!session?.user?.id) {
-            return { success: false, message: "User Not Found" }
-        }
 
         let imageUrl: string | null = null;
 
         if (image && image.size > 0) {
-
             if (image.size > 5 * 1024 * 1024) {
                 return {
                     success: false,
@@ -79,25 +73,24 @@ export async function createProjectAction(formData: FormData) {
 
     } catch (error) {
         console.error(error);
-        return { success: false, message: "internal server error, please try agin" };
+        return { success: false, message: "internal server error, please try again" };
     }
 
     revalidatePath('/')
+    revalidatePath('/dashboard')
     revalidatePath("/dashboard/dashprojects");
     redirect("/dashboard")
 }
 
 export const deleteProjectAction = async (id: string) => {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "Unauthorized" }
+    }
 
     try {
-        const session = await auth();
-
-        if (!session?.user?.id) {
-            return { success: false, message: "Unauthorized" }
-        }
 
         const project = await prisma.project.findUnique({ where: { id } });
-
         if (!project || project.userId !== session.user.id) {
             return { success: false, message: "Not allowed" };
         }
@@ -105,51 +98,42 @@ export const deleteProjectAction = async (id: string) => {
         await prisma.project.delete({ where: { id } });
 
         revalidatePath("/");
+        revalidatePath('/dashboard')
         revalidatePath("/dashboard/dashprojects");
 
         return { success: true, message: "Project deleted" };
 
     } catch (error) {
         console.error(error);
-        return { success: false, message: "internal server error, please try agin" };
+        return { success: false, message: "internal server error, please try again" };
     }
-
-
-
 }
 
-export const upadateProjectAction = async (id: string, formData: FormData) => {
+export const updateProjectAction = async (id: string, formData: FormData) => {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "Unauthorized" }
+    }
+
+    const title = formData.get("title")?.toString() ?? "";
+    const content = formData.get("content")?.toString() ?? "";
+    const githubUrl = formData.get("githubUrl")?.toString();
+    const webUrl = formData.get("webUrl")?.toString();
+    const image = formData.get("image") as File | null;
+
+    const projectData: CreateProjectDto = {
+        title: title,
+        content: content
+    };
+
+    const validation = ProjectSchema.safeParse(projectData);
+    if (!validation.success) {
+        return { success: false, message: validation.error.issues[0].message }
+    }
+
     try {
 
-        const session = await auth();
-
-        const title = formData.get("title")?.toString();
-        const content = formData.get("content")?.toString();
-        const githubUrl = formData.get("githubUrl")?.toString();
-        const webUrl = formData.get("webUrl")?.toString();
-        const image = formData.get("image") as File | null;
-
-
-        const taskData: CreateProjectDto = {
-
-            title: title ?? "",
-
-            content: content ?? ""
-
-        };
-
-        const validation = ProjectSchema.safeParse(taskData);
-
-        if (!validation.success) {
-            return { success: false, message: validation.error.issues[0].message }
-        }
-
-        if (!session?.user?.id) {
-            return { success: false, message: "Unauthorized" }
-        }
-
         const project = await prisma.project.findUnique({ where: { id } });
-
         if (!project || project.userId !== session.user.id) {
             return { success: false, message: "Not allowed" };
         }
@@ -157,7 +141,6 @@ export const upadateProjectAction = async (id: string, formData: FormData) => {
         let imageUrl = project.image;
 
         if (image && image.size > 0) {
-
             if (image.size > 5 * 1024 * 1024) {
                 return {
                     success: false,
@@ -193,7 +176,7 @@ export const upadateProjectAction = async (id: string, formData: FormData) => {
         });
     } catch (error) {
         console.error(error);
-        return { success: false, message: "internal server error, please try agin" };
+        return { success: false, message: "internal server error, please try again" };
     }
 
 

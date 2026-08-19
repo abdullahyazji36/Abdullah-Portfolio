@@ -1,5 +1,5 @@
 "use client";
-import { upadateProjectAction } from "@/actions/project.action";
+import { updateProjectAction } from "@/actions/project.action";
 import { toast } from "react-toastify";
 import { Project } from "@/generated/prisma/client";
 import Image from "next/image";
@@ -8,7 +8,7 @@ const EditProject = ({ project }: { project: Project }) => {
 
     const handleSubmit = async (formData: FormData) => {
 
-        const validation = await upadateProjectAction(project.id, formData);
+        const validation = await updateProjectAction(project.id, formData);
 
         if (!validation?.success) {
             toast.error(validation.message)
