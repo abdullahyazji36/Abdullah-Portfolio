@@ -10,6 +10,7 @@ const DeleteSkillCategoryButton = ({ id }: { id: string }) => {
         const validation = await deleteSkillCategoryAction(id);
         if (!validation?.success) {
             toast.error(validation.message)
+            return;
         }
         await deleteSkillCategoryAction(id);
 

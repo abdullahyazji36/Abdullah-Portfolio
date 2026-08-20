@@ -10,6 +10,7 @@ const DeleteProjectButton = ({ id }: { id: string }) => {
         const validation = await deleteProjectAction(id);
         if (!validation?.success) {
             toast.error(validation.message)
+            return;
         }
         await deleteProjectAction(id);
 
