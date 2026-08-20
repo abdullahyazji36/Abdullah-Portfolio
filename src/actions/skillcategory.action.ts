@@ -5,22 +5,20 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-
 export const createSkillCategoryAction = async (formData: FormData) => {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "User Not Found" }
+    }
+
+    const name = formData.get("name")?.toString();
+
+    const validation = SkillCategorySchema.safeParse({ name });
+    if (!validation.success) {
+        return { success: false, message: validation.error.issues[0].message }
+    }
+
     try {
-        const name = formData.get("name")?.toString();
-
-        const session = await auth();
-
-        if (!session?.user?.id) {
-            return { success: false, message: "User Not Found" }
-        }
-        const validation = SkillCategorySchema.safeParse({ name });
-
-        if (!validation.success) {
-            return { success: false, message: validation.error.issues[0].message }
-        }
-
 
         await prisma.skillCategory.create({
             data: {
@@ -34,21 +32,21 @@ export const createSkillCategoryAction = async (formData: FormData) => {
     }
 
     revalidatePath('/')
+    revalidatePath('/dashboard')
     revalidatePath("/dashboard/dashskills");
+    revalidatePath("/dashboard/dashskill/add");
     redirect("/dashboard")
 }
 
 export const deleteSkillCategoryAction = async (id: string) => {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "Unauthorized" }
+    }
 
     try {
-        const session = await auth();
-
-        if (!session?.user?.id) {
-            return { success: false, message: "Unauthorized" }
-        }
 
         const skillCategory = await prisma.skillCategory.findUnique({ where: { id } });
-
         if (!skillCategory) {
             return { success: false, message: "SkillCategory Not Found" };
         }
@@ -56,7 +54,9 @@ export const deleteSkillCategoryAction = async (id: string) => {
         await prisma.skillCategory.delete({ where: { id } });
 
         revalidatePath("/");
+        revalidatePath("/dashboard");
         revalidatePath("/dashboard/dashskills");
+        revalidatePath("/dashboard/dashskill/add");
 
         return { success: true, message: "Skill Category deleted" };
 
@@ -68,26 +68,24 @@ export const deleteSkillCategoryAction = async (id: string) => {
 }
 
 export const updateSkillCategoryAction = async (id: string, formData: FormData) => {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: "User Not Found" }
+    }
+
+    const name = formData.get("name")?.toString();
+
+    const validation = SkillCategorySchema.safeParse({ name });
+    if (!validation.success) {
+        return { success: false, message: validation.error.issues[0].message }
+    }
+
     try {
-        const name = formData.get("name")?.toString();
-
-        const session = await auth();
-
-        if (!session?.user?.id) {
-            return { success: false, message: "User Not Found" }
-        }
-        const validation = SkillCategorySchema.safeParse({ name });
-
-        if (!validation.success) {
-            return { success: false, message: validation.error.issues[0].message }
-        }
 
         const skillCategory = await prisma.skillCategory.findUnique({ where: { id } });
-
         if (!skillCategory) {
             return { success: false, message: "SkillCategory Not Found" };
         }
-
 
         await prisma.skillCategory.update({
             where: { id },
@@ -103,5 +101,6 @@ export const updateSkillCategoryAction = async (id: string, formData: FormData) 
 
     revalidatePath('/')
     revalidatePath("/dashboard/dashskills");
+    revalidatePath("/dashboard/dashskill/add");
     redirect("/dashboard")
 }
